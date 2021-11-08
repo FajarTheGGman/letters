@@ -1,7 +1,7 @@
 # Letters
 Aplikasi pembuatan surat digital
 
-![](https://img.shields.io/badge/Warning-Under_Development-yellow) Still in development
+![](https://img.shields.io/badge/Warning-Under_Development-yellow)
 
 ![](https://img.shields.io/badge/Language-Javascript-yellow?logo=javascript) ![](https://img.shields.io/badge/Language-php-purple?logo=php) ![](https://img.shields.io/badge/Frontend-Bootstrap-blue?logo=bootstrap) 
 
