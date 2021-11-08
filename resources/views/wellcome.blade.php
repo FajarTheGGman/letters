@@ -2,11 +2,19 @@
 <body id='page-top'>
     <div class='row bg-gradient-primary justify-content-between'>
         <div class='row ml-5 mt-2 pt-2 pb-2'>
-            <img src="{{ url('assets/favicon.png') }}" width="50" height="50" />
+            <h1 class='text-white' style="font-family: 'Sacramento', cursive">Letters</h1>
         </div>
 
         <div class='row mr-5 align-items-center'>
-            <a href={{ route('login') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
+            @if(session('email'))
+                @if(session('role') == 'admin')
+                    <a href={{ route('admin') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
+                @else
+                    <a href={{ route('index') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
+                @endif
+            @else
+                <a href={{ route('login') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
+            @endif
         </div>
     </div>
 
