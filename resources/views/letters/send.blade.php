@@ -27,7 +27,6 @@
     <script>
           tinymce.init({
               selector: 'textarea#editor',
-              
               menubar: false
             });
     </script>

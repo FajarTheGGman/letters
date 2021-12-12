@@ -8,6 +8,7 @@ use App\Http\Controllers\LetterController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UsersController;
 
+use App\Models\Notify;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,5 +68,9 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::fallback(function(){
-    return view('error.404');
+    if(Session::get('firstname')){
+        return view('error.404', ['notify' => Notify::all()]);
+    }else{
+        return "none";
+    }
 });

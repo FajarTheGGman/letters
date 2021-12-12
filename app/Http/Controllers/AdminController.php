@@ -7,6 +7,7 @@ use App\Models\Users;
 use App\Models\Template;
 use App\Models\Role;
 use App\Models\Inbox;
+use App\Models\Notify;
 use PDF;
 
 class AdminController extends Controller
@@ -19,7 +20,8 @@ class AdminController extends Controller
                 'users' => Users::all()->count(),
                 'template' => Template::all()->count(),
                 'admin' => Users::where('level', 'admin')->count(),
-                'inbox' => Inbox::all()->count()
+                'inbox' => Inbox::all()->count(),
+                'notify' => Notify::all()
             ]);
         }else{
             return back();
@@ -30,7 +32,7 @@ class AdminController extends Controller
         if($user->session()->get('level') != 'admin'){
             return back();
         }else{
-            return view('masterdata.role', ['list' => Role::all()]);
+            return view('masterdata.role', ['list' => Role::all(), 'notify' => Notify::all()]);
         }
     }
 
@@ -59,7 +61,7 @@ class AdminController extends Controller
         if(!$user->session()->get('level') && $user->session()->get('level') != 'admin' ){
             return back();
         }
-        return view('admin.adduser', ['users' => Users::all()]);
+        return view('admin.adduser', ['users' => Users::all(), 'notify' => Notify::all()]);
     }
 
     public function newAdmin(Request $user){

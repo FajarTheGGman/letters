@@ -7,10 +7,10 @@
 
         <div class='row mr-5 align-items-center'>
             @if(session('email'))
-                @if(session('role') == 'admin')
+                @if(session('level') == 'admin')
                     <a href={{ route('admin') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
                 @else
-                    <a href={{ route('index') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
+                    <a href={{ route('dashboard') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>
                 @endif
             @else
                 <a href={{ route('login') }} class='bg-white p-2 pl-3 pr-3 rounded-top rounded-bottom rounded-start rounded-end'>Mulai</a>

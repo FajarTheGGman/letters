@@ -7,6 +7,7 @@ use App\Models\Users;
 use App\Models\Template;
 use App\Models\Role;
 use App\Models\Inbox;
+use App\Models\Notify;
 
 class UsersController extends Controller
 {
@@ -28,7 +29,7 @@ class UsersController extends Controller
             return back();
         }else{
             $data = Users::where('email', $user->session()->get('email'))->first();
-            return view('users.profile', ['data' => $data]);
+            return view('users.profile', ['data' => $data, 'notify' => Notify::all()]);
         }
     }
 }

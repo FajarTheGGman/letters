@@ -60,6 +60,54 @@
                                 </div>
                             </div>
                         </div>
+                    <div class="row">
+
+                        <!-- Content Column -->
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Letters</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                            src="{{ url("assets/img/undraw_posting_photo.svg") }}" alt="...">
+                                    </div>
+                                    <p>Letters adalah sebuah aplikasi untuk membuat 
+                                        Surat Digital.
+                                        Seperti PDF, dan Letters juga memiliki fitur mail
+                                        Yang Memungkinkan kamu untuk mengirim surat kepada role tertentu</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Illustrations -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">List Fitur</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                            src="{{ url("assets/img/undraw_Scrum_board_re_wk7v.png") }}" alt="...">
+                                    </div>
+                                    <p>
+                                        Letters mempunyai beberapa fitur seperti, <a href='{{ route('create-letter') }}'> template generator </a>, <a href="{{ route('send-letter') }}">send letters</a>, <a href="{{ route('inbox-letter') }}">inbox surat</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Approach -->
+
+                        </div>
+                    </div>
+
+
                     </div>
 
 @endsection

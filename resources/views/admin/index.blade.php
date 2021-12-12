@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ url('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+    <link href="{{ url("favicon.ico") }}" rel='favicon' />
 </head>
 
 <body id="page-top">
@@ -67,7 +67,6 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Master Data</h6>
                         <a class="collapse-item" href={{ route('addadmin') }}>Tambah Admin</a>
-                        <a class="collapse-item">Custom Layout</a>
                         <a class="collapse-item" href={{ route('admin-role') }}>Role Users</a>
                     </div>
                 </div>
@@ -102,23 +101,6 @@
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Settings</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -211,14 +193,23 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <span class="badge badge-danger badge-counter">{{ $notify->count() == '0' ? '' : $notify->count() }}</span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
-                                    Message Center
+                                    Inbox Notifications
                                 </h6>
+
+                                @foreach( $notify as $x )
+                                <a class="dropdown-item d-flex align-items-center" href="{{ $x->body }}">
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">{{ $x->title }}</div>
+                                        <div class="small text-gray-800">{{ $x->desc }}</div>
+                                    </div>
+                                </a>
+                                @endforeach
 
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
@@ -228,16 +219,16 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="{{ route('profile') }}" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $firstname }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $firstname }} {{ $lastname }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ url('assets/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -266,6 +257,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <h3 class='text-primary pb-3'>Wellcome back {{ $firstname }}</h3>
                     <!-- Content Row -->
                     <div class="row">
 
