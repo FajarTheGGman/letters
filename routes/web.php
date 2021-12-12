@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LetterController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UsersController;
+
+use App\Models\Notify;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,11 +40,21 @@ Route::prefix('letter')->group(function(){
     Route::get('/template', [LetterController::class, 'template'])->name('template-letter');
     Route::get('/send', [LetterController::class, 'send'])->name('send-letter');
     Route::post('/send', [LetterController::class, 'send_post'])->name('send-post-letter');
+
     Route::get('/inbox', [LetterController::class, 'inbox'])->name('inbox-letter');
     Route::get('/inbox/{id}', [LetterController::class, 'inbox_overview'])->name('inbox-overview-letter');
+    Route::get('/inbox/delete/{id}', [LetterController::class, 'inbox_delete'])->name('inbox-delete');
+
+    Route::post('/search', [LetterController::class, 'search'])->name('search-letter');
+
     Route::post('/create/custom', [LetterController::class, 'create'])->name('create');
     Route::get('/delete/{id}', [LetterController::class, 'delete'])->name('delete-letter');
     Route::get('/overview/{id}', [LetterController::class, 'overview'])->name('overview-letter');
+});
+
+Route::prefix('users')->group(function(){
+    Route::get('/', [UsersController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
 });
 
 Route::prefix('admin')->group(function(){
@@ -52,4 +65,12 @@ Route::prefix('admin')->group(function(){
     Route::post('/role', [AdminController::class, 'role_post'])->name('admin-role-post');
     Route::post('/addadmin', [AdminController::class, 'newAdmin'])->name('newadmin');
 
+});
+
+Route::fallback(function(){
+    if(Session::get('firstname')){
+        return view('error.404', ['notify' => Notify::all()]);
+    }else{
+        return "none";
+    }
 });

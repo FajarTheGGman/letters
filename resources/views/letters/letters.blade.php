@@ -36,5 +36,15 @@
               selector: 'textarea#header',
               menubar: true
           })
+
+    </script>
+    <script>
+        if("{{ session('success') }}"){
+            Swal.fire({
+                title: 'Success',
+                text: 'Berhasil Membuat Template Surat!'
+                icon: 'success'
+            })
+        }
     </script>
 @endsection

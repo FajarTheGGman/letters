@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ url("assets/css/sb-admin-2.min.css") }}" rel="stylesheet">
+    <link href="{{ url("favicon.ico") }}" rel='favicon' />
 
 </head>
 
@@ -31,21 +32,35 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/admin') }}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Letters</div>
-            </a>
-
+            @if(Session::get('level') == 'admin')
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin') }}">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Letters</div>
+                </a>
+            @else
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Letters</div>
+                </a>
+            @endif
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href={{ route('admin') }}>
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                @if(Session::get('level') == 'admin')
+                    <a class="nav-link" href={{ route('admin') }}>
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                @else
+                    <a class="nav-link" href={{ route('dashboard') }}>
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                @endif
             </li>
 
             <!-- Divider -->
@@ -58,16 +73,17 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Master Data</span>
-                </a>
+                @if(Session::get('level') == 'admin')
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Master Data</span>
+                    </a>
+                @endif
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Master Data</h6>
                         <a class="collapse-item" href={{ route('addadmin') }}>Tambah Admin</a>
-                        <a class="collapse-item">Custom Layout</a>
                         <a href={{ route('admin-role') }} class="collapse-item">Role Users</a>
                     </div>
                 </div>
@@ -82,8 +98,8 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('create-letter') }}" >
-                    <i class="fas fa-fw fa-paper-plane"></i>
-                    <span>Buat Surat</span>
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Buat Template</span>
                 </a>
             </li>
 
@@ -102,23 +118,6 @@
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Settings</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -147,12 +146,13 @@
 
                     <!-- Topbar Search -->
                     <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action={{ route('search-letter') }} method='post'>
+                        @csrf
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Cari Template Surat...."
+                                aria-label="Search" aria-describedby="basic-addon2" name='search'>
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -171,13 +171,13 @@
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
+                                <form class="form-inline mr-auto w-100 navbar-search" action={{ route('search-letter') }} method="post">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                            placeholder="Cari Template Surat..." aria-label="Search"
+                                            aria-describedby="basic-addon2" name='search'>
                                         <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
+                                            <button class="btn btn-primary" type="submit">
                                                 <i class="fas fa-search fa-sm"></i>
                                             </button>
                                         </div>
@@ -211,14 +211,23 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter"></span>
+                                <span class="badge badge-danger badge-counter">{{ $notify->count() == '0' ? '' : $notify->count() }}</span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
-                                    Message Center
+                                    Inbox Notifications
                                 </h6>
+
+                                @foreach( $notify as $x )
+                                <a class="dropdown-item d-flex align-items-center" href="{{ $x->body }}">
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">{{ $x->title }}</div>
+                                        <div class="small text-gray-800">{{ $x->desc }}</div>
+                                    </div>
+                                </a>
+                                @endforeach
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
@@ -236,7 +245,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -325,6 +334,7 @@
     <script src="{{ url("assets/js/sb-admin-2.min.js") }}"></script>
 
     <script src={{ url("assets/js/texteditor.js") }} referrerpolicy="origin"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @yield('script')
 

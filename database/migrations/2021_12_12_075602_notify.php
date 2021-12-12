@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Inbox extends Migration
+class Notify extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class Inbox extends Migration
      */
     public function up()
     {
-        Schema::create('inbox', function(Blueprint $table){
+        Schema::create('notify', function(Blueprint $table){
             $table->id();
-            $table->string('subject');
-            $table->longText('body');
-            $table->string('letter');
-            $table->string('from');
-            $table->string('role');
-            $table->string('date');
+            $table->string('title');
+            $table->string('body');
+            $table->string('desc');
         });
     }
 
@@ -31,6 +28,6 @@ class Inbox extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExsist('notify');
     }
 }

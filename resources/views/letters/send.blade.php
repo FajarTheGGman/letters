@@ -8,10 +8,10 @@
                 @csrf
                 <input class='form-control' name='subject' placeholder="Subject"/>
                 <label class='form-label mt-3'>Send To :</label>
-                <select id="to" class='form-control'>
+                <select id="to" name='role' class='form-control'>
                     <option disabled>Select Role To Send</option>
                     @foreach( $role as $x )
-                        <option value={{ $x->level }}>{{ $x->name }}</option>
+                        <option value={{ $x->name }}>{{ $x->name }}</option>
                     @endforeach
                 </select>
                 <label for="formFile" class="form-label mt-3">File Surat PDF</label>
@@ -27,7 +27,6 @@
     <script>
           tinymce.init({
               selector: 'textarea#editor',
-              
               menubar: false
             });
     </script>

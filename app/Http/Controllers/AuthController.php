@@ -27,13 +27,16 @@ class AuthController extends Controller
         $email = $user->email;
         $firstname = $user->firstname;
         $lastname = $user->lastname;
+        $role = $user->role;
+        $level = Role::where('name', $role)->first();
 
         Users::create([
             'firstname' => $firstname,
             'lastname' => $lastname,
             'email' => $email,
             'password' => $password,
-            'role' => $user->role
+            'role' => $role,
+            'level' => $level->level
         ]);
 
         return back()->with('success', 'success');
@@ -51,13 +54,14 @@ class AuthController extends Controller
 
         if($check){
             $hash = Hash::check($user->password, $check->password);
+            $role = Role::where('name', $check->role)->first();
 
             if($hash){
-                if($check->role == 'admin'){
-                    $user->session()->put(['role' => $check->role, 'firstname' => $check->firstname, 'lastname' => $check->lastname ,'email' => $check->email]);
+                $user->session()->put(['role' => $role->name, 'level' => $role->level, 'firstname' => $check->firstname, 'lastname' => $check->lastname ,'email' => $check->email]);
+                if($role->level == 'admin'){
                     return redirect()->route('admin');
                 }else{
-                    
+                    return redirect()->route('dashboard');
                 }
             }else{
                 return back()->with('failed', 'failed');

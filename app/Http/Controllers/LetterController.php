@@ -7,6 +7,7 @@ use App\Models\Users;
 use App\Models\Template;
 use App\Models\Inbox;
 use App\Models\Role;
+use App\Models\Notify;
 use Barryvdh\DomPDF\Facade as PDF;
 
 
@@ -16,7 +17,7 @@ class LetterController extends Controller
         if(!$user->session()->get('role')){
             return back();
         }else{
-            return view('letters.letters');
+            return view('letters.letters', ['notify' => Notify::all()]);
         }
     }
 
@@ -24,7 +25,7 @@ class LetterController extends Controller
         if(!$user->session()->get('firstname')){
             return back();
         }else{
-            return view('letters.send', ['role' => Role::all()]);
+            return view('letters.send', ['role' => Role::all(), 'notify' => Notify::all()]);
         }
     }
 
@@ -36,6 +37,7 @@ class LetterController extends Controller
                 'subject' => $data->subject,
                 'from' => $data->session()->get('firstname'),
                 'body' => $data->body,
+                'role' => $data->role,
                 'letter' => 'none.pdf',
                 'date' => date('D-M-Y')
             ]);
@@ -48,7 +50,11 @@ class LetterController extends Controller
         if(!$user->session()->get('firstname')){
             return back();
         }else{
-            return view('letters.inbox', ['inbox' => Inbox::all()]);
+            if($user->session()->get('level') == 'admin'){
+                return view('letters.inbox', ['inbox' => Inbox::all(), 'notify' => Notify::all()]);
+            }else{
+                return view('letters.inbox', ['inbox' => Inbox::where('role', $user->session()->get('role'))->get(), 'notify' => Notify::all()]);
+            }
         }
     }
 
@@ -57,7 +63,25 @@ class LetterController extends Controller
             return back();
         }else{
             $data = Inbox::where('id', $id)->first();
-            return view('letters.inbox_overview', ["data" => $data]);
+            return view('letters.inbox_overview', ["data" => $data, 'notify' => Notify::all()]);
+        }
+    }
+
+    public function inbox_delete(Request $user, $id){
+        if(!$user->session()->get('firstname')){
+            return back();
+        }else{
+            Inbox::where('id', $id)->delete();
+            return redirect()->route('inbox-letter');
+        }
+    }
+
+    public function search(Request $data){
+        if(!$data->session()->get('role')){
+            return back();
+        }else{
+            $query = Template::where('title', 'like', '%'.$data->search.'%')->get();
+            return view('letters.search', ['data' => $query, 'notify' => Notify::all()]);
         }
     }
 
@@ -71,35 +95,38 @@ class LetterController extends Controller
         if($check > 0){
             return back()->with('already', 'already');
         }else{
-            try {
+            try{
                 Template::insert([
                     'title' => $data->title,
                     'desc' => $data->desc,
                     'address' => $data->alamat,
-                    'banner' => url('/').'/uploads/temp/'.$file->getClientOriginalName(),
+                    'banner' => $data->file('cover') ? url('/').'/uploads/temp/'.$file->getClientOriginalName() : 'none.png',
                     'tone_title' => $data->tone_title,
                     'body' => $data->body,
                     'date' => date('d-m-y')
                 ]);
-                return back()->with('success', 'success');
-            }catch(\Exception $e){
-                $pdf_data = PDF::setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true])->loadView('letters-template.custom', [
-                    'banner' => /*$data->banner*/'x.png',
-                    'title' => $data->title,
-                    'tone_title' => $data->tone_title,
-                    'alamat' => $data->alamat,
-                    'desc' => $data->desc,
-                    'body' => $data->body,
+
+                $get = Template::where('title', $data->title)->first();
+
+                Notify::insert([
+                    'title' => 'Template baru : '.$data->title,
+                    'body' => route('overview-letter', $get->id),
+                    'desc' => 'Template baru dari '.$data->session()->get('firstname')
                 ]);
 
-                echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'>
-                        Swal.fire({
-                            title: 'testing',
-                            text: 'testing'
-                        });
-                    </script>";
-
-                return $pdf_data->stream();
+                return back()->with('success', 'success');
+            }catch(\Exception $e){
+                if($e){
+                    $pdf_data = PDF::setOptions(['isRemoteEnabled' => true, 'isHtml5ParserEnabled' => true])->loadView('letters-template.custom', [
+                        'banner' => $data->banner,
+                        'title' => $data->title,
+                        'tone_title' => $data->tone_title,
+                        'alamat' => $data->address,
+                        'desc' => $data->desc,
+                        'body' => $data->body,
+                    ]);
+                    return $pdf_data->stream();
+                }
             }
         }
     }
@@ -109,7 +136,7 @@ class LetterController extends Controller
             return back();
         }else{
             $data = Template::all();
-            return view('letters.template',  ['data' => $data]);
+            return view('letters.template',  ['data' => $data, 'notify' => Notify::all()]);
         }
     }
 
@@ -135,6 +162,8 @@ class LetterController extends Controller
         if(!$user->session()->get('firstname')){
             return back();
         }else{
+            $data = Template::where('id', $id)->first();
+            Notify::where('title', 'Template baru : '.$data->title)->delete();
             Template::where('id', $id)->delete();
             return back()->with('done', 'done');
         }
