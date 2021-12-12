@@ -33,9 +33,23 @@ Route::prefix('auth')->group(function(){
 });
 
 Route::prefix('letter')->group(function(){
-//    Route::get('/create')
+    Route::get('/', [LetterController::class, 'index'])->name('create-letter');
+    Route::get('/template', [LetterController::class, 'template'])->name('template-letter');
+    Route::get('/send', [LetterController::class, 'send'])->name('send-letter');
+    Route::post('/send', [LetterController::class, 'send_post'])->name('send-post-letter');
+    Route::get('/inbox', [LetterController::class, 'inbox'])->name('inbox-letter');
+    Route::get('/inbox/{id}', [LetterController::class, 'inbox_overview'])->name('inbox-overview-letter');
+    Route::post('/create/custom', [LetterController::class, 'create'])->name('create');
+    Route::get('/delete/{id}', [LetterController::class, 'delete'])->name('delete-letter');
+    Route::get('/overview/{id}', [LetterController::class, 'overview'])->name('overview-letter');
 });
 
 Route::prefix('admin')->group(function(){
     Route::get('/', [AdminController::class, 'index'])->name('admin');
+    Route::get('/adduser', [AdminController::class, 'adduser'])->name('addadmin');
+    Route::get('/role', [AdminController::class, 'role'])->name('admin-role');
+    Route::get('/role/delete/{id}', [AdminController::class, 'role_delete'])->name('admin-role-delete');
+    Route::post('/role', [AdminController::class, 'role_post'])->name('admin-role-post');
+    Route::post('/addadmin', [AdminController::class, 'newAdmin'])->name('newadmin');
+
 });

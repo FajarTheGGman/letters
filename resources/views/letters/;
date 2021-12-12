@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Blank Letters</title>
+    </head>
+
+<style>
+div{
+    display: inline;
+}
+</style>
+
+    <body>
+        <div class='header'>
+            <div>
+                <img src="https://idn-static-assets.s3-ap-southeast-1.amazonaws.com/school/10287.png" width='90px' height='90px' />
+            </div>
+            <div>
+                <h1>testingadokao</h1>
+            </div>
+        </div>
+        <hr>
+        {!! $body !!}
+    </body>
+</html>

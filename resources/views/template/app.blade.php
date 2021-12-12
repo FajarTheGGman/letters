@@ -12,13 +12,13 @@
     <title>Letters</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{ url('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url("assets/vendor/fontawesome-free/css/all.min.css") }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ url('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ url("assets/css/sb-admin-2.min.css") }}" rel="stylesheet">
 
 </head>
 
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href={{ route('admin') }}>
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -68,34 +68,34 @@
                         <h6 class="collapse-header">Master Data</h6>
                         <a class="collapse-item" href={{ route('addadmin') }}>Tambah Admin</a>
                         <a class="collapse-item">Custom Layout</a>
-                        <a class="collapse-item" href={{ route('admin-role') }}>Role Users</a>
+                        <a href={{ route('admin-role') }} class="collapse-item">Role Users</a>
                     </div>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('send-letter') }}" >
+                <a class="nav-link" href="{{ route("send-letter") }}" >
                     <i class="fas fa-fw fa-paper-plane"></i>
                     <span>Kirim Surat</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href={{ route('create-letter') }} >
+                <a class="nav-link" href="{{ route('create-letter') }}" >
                     <i class="fas fa-fw fa-paper-plane"></i>
                     <span>Buat Surat</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href={{ route('template-letter') }} >
+                <a class="nav-link" href="{{ route('template-letter') }}" >
                     <i class="fas fa-fw fa-clipboard-list"></i>
                     <span>List Template</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('inbox-letter') }}" >
+                <a class="nav-link" href="{{ route("inbox-letter") }}" >
                     <i class="fas fa-fw fa-envelope"></i>
                     <span>Inbox Surat</span>
                 </a>
@@ -149,7 +149,7 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Cari Template Surat..."
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
@@ -200,6 +200,7 @@
                                 <h6 class="dropdown-header">
                                     Alerts Center
                                 </h6>
+
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
@@ -218,7 +219,6 @@
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
-
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
@@ -229,9 +229,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $firstname }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Session::get('firstname') }} {{ Session::get('lastname') }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ url('assets/img/undraw_profile.svg') }}">
+                                    src="{{ url("assets/img/undraw_profile.svg")}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -249,7 +249,7 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -265,132 +265,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Users</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $users }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Total Template</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $template }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-envelope fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Admin
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $admin }}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user-shield fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Inbox</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $inbox }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-inbox fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Letters</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="{{ url("assets/img/undraw_posting_photo.svg") }}" alt="...">
-                                    </div>
-                                    <p>Letters adalah sebuah aplikasi untuk membuat 
-                                        Surat Digital.
-                                        Seperti PDF, dan Letters juga memiliki fitur mail
-                                        Yang Memungkinkan kamu untuk mengirim surat kepada role tertentu</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">List Fitur</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="{{ url("assets/img/undraw_Scrum_board_re_wk7v.png") }}" alt="...">
-                                    </div>
-                                    <p>
-                                        Letters mempunyai beberapa fitur seperti, <a href='{{ route('create-letter') }}'> template generator </a>, <a href="{{ route('send-letter') }}">send letters</a>, <a href="{{ route('inbox-letter') }}">inbox surat</a>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Approach -->
-
-                        </div>
-                    </div>
+                    @yield('content')
 
                 </div>
                 <!-- /.container-fluid -->
@@ -425,12 +300,12 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Logout?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Ingin Keluar ?</div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>
@@ -440,19 +315,18 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ url('assets/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }} "></script>
+    <script src="{{ url("assets/vendor/jquery/jquery.min.js") }}"></script>
+    <script src="{{ url("assets/vendor/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ url('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ url("assets/vendor/jquery-easing/jquery.easing.min.js") }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ url('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ url("assets/js/sb-admin-2.min.js") }}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{{ url('assets/vendor/chart.js/Chart.min.js') }}"></script>
+    <script src={{ url("assets/js/texteditor.js") }} referrerpolicy="origin"></script>
 
-    <!-- Page level custom scripts -->
+    @yield('script')
 
 </body>
 
