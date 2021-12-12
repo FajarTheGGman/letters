@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>Letters</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ url('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -32,6 +32,7 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
+                                <h1 class="fas fa-fw fa-envelope"></h1>
                                 <h1 class="h4 text-gray-900 mb-4">Daftar Akun Baru!</h1>
                             </div>
                             <form action="{{ route('register-post') }}" method="post" class="user">
@@ -59,6 +60,14 @@
                                         <input type="password" name='passwordverify' class="form-control form-control-user"
                                             id="exampleRepeatPassword" placeholder="Repeat Password">
                                     </div>
+                                </div>
+                                <div class='form-group'>
+                                    <select name='role' class='form-control'>
+                                        <option value='Pilih Role' disabled>Pilih Role</option>
+                                        @foreach( $role as $x )
+                                            <option value={{ $x->level }}>{{ $x->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account

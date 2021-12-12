@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Letters</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ url('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -38,6 +38,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
+                                        <h1 class="fas fa-fw fa-envelope"></h1>
                                         <h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
                                     </div>
                                     <form action='{{ route('login-post') }}' method='post' class="user">

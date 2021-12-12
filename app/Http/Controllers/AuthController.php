@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
+use App\Models\Role;
 
 class AuthController extends Controller
 {
@@ -13,7 +14,7 @@ class AuthController extends Controller
     }
 
     public function register(){
-        return view('auth.register');
+        return view('auth.register', ['role' => Role::all()]);
     }
 
     public function register_post(Request $user){
@@ -31,7 +32,8 @@ class AuthController extends Controller
             'firstname' => $firstname,
             'lastname' => $lastname,
             'email' => $email,
-            'password' => $password
+            'password' => $password,
+            'role' => $user->role
         ]);
 
         return back()->with('success', 'success');
@@ -52,7 +54,7 @@ class AuthController extends Controller
 
             if($hash){
                 if($check->role == 'admin'){
-                    $user->session()->put(['role' => $check->role, 'firstname' => $check->firstname, 'email' => $check->email]);
+                    $user->session()->put(['role' => $check->role, 'firstname' => $check->firstname, 'lastname' => $check->lastname ,'email' => $check->email]);
                     return redirect()->route('admin');
                 }else{
                     
