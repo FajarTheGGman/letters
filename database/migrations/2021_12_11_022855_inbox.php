@@ -19,6 +19,7 @@ class Inbox extends Migration
             $table->longText('body');
             $table->string('letter');
             $table->string('from');
+            $table->string('role');
             $table->string('date');
         });
     }

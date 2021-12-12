@@ -12,13 +12,13 @@ use PDF;
 class AdminController extends Controller
 {
     public function index(Request $user){
-        if($user->session()->get('email')){
+        if($user->session()->get('level') == 'admin'){
             return view('admin.index', [
                 'firstname' => $user->session()->get('firstname'),
                 'lastname' => $user->session()->get('lastname'),
                 'users' => Users::all()->count(),
                 'template' => Template::all()->count(),
-                'admin' => Users::where('role', 'admin')->count(),
+                'admin' => Users::where('level', 'admin')->count(),
                 'inbox' => Inbox::all()->count()
             ]);
         }else{
@@ -27,7 +27,7 @@ class AdminController extends Controller
     }
 
     public function role(Request $user){
-        if($user->session()->get('role') != 'admin'){
+        if($user->session()->get('level') != 'admin'){
             return back();
         }else{
             return view('masterdata.role', ['list' => Role::all()]);
@@ -35,7 +35,7 @@ class AdminController extends Controller
     }
 
     public function role_post(Request $user){
-        if($user->session()->get('role') != 'admin'){
+        if($user->session()->get('level') != 'admin'){
             return back();
         }else{
             Role::insert([
@@ -47,7 +47,7 @@ class AdminController extends Controller
     }
 
     public function role_delete(Request $user, $id){
-        if($user->session()->get('role') != 'admin'){
+        if($user->session()->get('level') != 'admin'){
             return back();
         }else{
             Role::where('id', $id)->delete();
@@ -56,7 +56,7 @@ class AdminController extends Controller
     }
 
     public function adduser(Request $user){
-        if(!$user->session()->get('role') && $user->session()->get('role') != 'admin' ){
+        if(!$user->session()->get('level') && $user->session()->get('level') != 'admin' ){
             return back();
         }
         return view('admin.adduser', ['users' => Users::all()]);

@@ -36,6 +36,7 @@ class LetterController extends Controller
                 'subject' => $data->subject,
                 'from' => $data->session()->get('firstname'),
                 'body' => $data->body,
+                'role' => $data->role,
                 'letter' => 'none.pdf',
                 'date' => date('D-M-Y')
             ]);
@@ -48,7 +49,11 @@ class LetterController extends Controller
         if(!$user->session()->get('firstname')){
             return back();
         }else{
-            return view('letters.inbox', ['inbox' => Inbox::all()]);
+            if($user->session()->get('level') == 'admin'){
+                return view('letters.inbox', ['inbox' => Inbox::all()]);
+            }else{
+                return view('letters.inbox', ['inbox' => Inbox::where('role', $user->session()->get('role'))->get()]);
+            }
         }
     }
 
@@ -58,6 +63,24 @@ class LetterController extends Controller
         }else{
             $data = Inbox::where('id', $id)->first();
             return view('letters.inbox_overview', ["data" => $data]);
+        }
+    }
+
+    public function inbox_delete(Request $user, $id){
+        if(!$user->session()->get('firstname')){
+            return back();
+        }else{
+            Inbox::where('id', $id)->delete();
+            return redirect()->route('inbox-letter');
+        }
+    }
+
+    public function search(Request $data){
+        if(!$data->session()->get('role')){
+            return back();
+        }else{
+            $query = Template::where('title', 'like', '%'.$data->search.'%')->get();
+            return view('letters.search', ['data' => $query]);
         }
     }
 

@@ -19,7 +19,8 @@ class Users extends Migration
             $table->string('lastname');
             $table->string('email');
             $table->string('password');
-            $table->string('role')->default('siswa');
+            $table->string('role');
+            $table->string('level');
             $table->timestamps();
         });
     }

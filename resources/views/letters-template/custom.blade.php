@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Blank Letters</title>
+        <title>{{ $title }}</title>
     </head>
 
 <style>

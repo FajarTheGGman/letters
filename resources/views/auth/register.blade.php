@@ -63,9 +63,8 @@
                                 </div>
                                 <div class='form-group'>
                                     <select name='role' class='form-control'>
-                                        <option value='Pilih Role' disabled>Pilih Role</option>
                                         @foreach( $role as $x )
-                                            <option value={{ $x->level }}>{{ $x->name }}</option>
+                                            <option value={{ $x->name }}>{{ $x->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -13,7 +13,9 @@ class Users extends Model
         'firstname',
         'lastname',
         'email',
-        'password'
+        'password',
+        'role',
+        'level'
     ];
     protected $table = 'users';
 }
