@@ -82,7 +82,7 @@
             <li class="nav-item">
                 <a class="nav-link" href={{ route('create-letter') }} >
                     <i class="fas fa-fw fa-envelope"></i>
-                    <span>Buat Surat</span>
+                    <span>Buat Template</span>
                 </a>
             </li>
 

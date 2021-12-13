@@ -11,6 +11,24 @@
             @else
                 <h5 class='text-secondary'>{{ $data->role }}</h5>
             @endif
+
+            <div class='row'>
+                <div class='card shadow'>
+                    <div class='card-body'>
+                        <h3 class='fas fa-envelope'></h3>
+                        <p class='text-primary'>{{ $inbox }}</p>
+                        <h5>Letters Send</h5>
+                    </div>
+                </div>
+
+                <div class='card shadow'>
+                    <div class='card-body'>
+                        <h3 class='fas fa-envelope'></h3>
+                        <p class='text-primary'>{{ $inbox }}</p>
+                        <h5>Letters Send</h5>
+                    </div>
+                </div>
+            </div>
             </center>
         </div>
     </div>

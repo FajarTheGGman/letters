@@ -15,6 +15,7 @@ class Template extends Migration
     {
         Schema::create('template', function(Blueprint $table){
             $table->id();
+            $table->string('creator');
             $table->string('title');
             $table->string('desc');
             $table->string('banner');

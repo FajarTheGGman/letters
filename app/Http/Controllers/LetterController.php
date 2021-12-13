@@ -97,6 +97,7 @@ class LetterController extends Controller
         }else{
             try{
                 Template::insert([
+                    'creator' => $data->session()->get('firstname'),
                     'title' => $data->title,
                     'desc' => $data->desc,
                     'address' => $data->alamat,

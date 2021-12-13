@@ -19,7 +19,8 @@ class UsersController extends Controller
             return view('dashboard', [
                 'users' => Users::where('level', 'Users')->count(),
                 'template' => Template::all()->count(),
-                'inbox' => Inbox::where('role', $role->name)->count()
+                'inbox' => Inbox::where('role', $role->name)->count(),
+                'notify' => Notify::all()
             ]);
         }
     }
@@ -29,7 +30,11 @@ class UsersController extends Controller
             return back();
         }else{
             $data = Users::where('email', $user->session()->get('email'))->first();
-            return view('users.profile', ['data' => $data, 'notify' => Notify::all()]);
+            return view('users.profile', [
+                'data' => $data, 
+                'notify' => Notify::all(),
+                'inbox' => Inbox::where('from', $user->session()->get('firstname'))->count()
+            ]);
         }
     }
 }
